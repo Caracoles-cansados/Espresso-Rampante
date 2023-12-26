@@ -76,9 +76,11 @@ void ModuleSceneIntro::CreateElements()
 	CreateElement(new Cube(50, 2, 16), vec3(-17, 1, 183), 0, vec3(1, 0, 0)); /*CURVA 1*/
 	CreateElement(new Cube(16, 2, 66), vec3(-50, 1, 158), 0, vec3(1, 0, 0)); /*POST CURVA 1*/
 	CreateElement(new Cube(50, 2, 16), vec3(-83, 1, 133), 0, vec3(1, 0, 0)); /*CURVA 2*/
+	CreateElement(new Cube(16, 2, 50), vec3(-100, 1, 166), 0, vec3(1, 0, 0)); /*POST CURVA 2*/
+	CreateElement(new Cube(80, 2, 16), vec3(-148, 1, 183), 0, vec3(1, 0, 0)); /*CURVA 3*/
 
 	/*RAMPAS*/
-	CreateElement(new Cube(16, 2, 5), vec3(0, 2, 100), -25, vec3(1, 0, 0));
+	CreateElement(new Cube(16, 2, 10), vec3(0, 2, 100), -25, vec3(1, 0, 0));
 	//CreateElement(new Cylinder(2,3), vec3(0, 3, 35), 25, vec3(0, 1, 0));
 
 
