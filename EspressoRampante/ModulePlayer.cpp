@@ -99,7 +99,11 @@ bool ModulePlayer::Start()
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->collision_listeners.add(this); // Add this module as listener to callbacks from vehicle
 	vehicle->SetPos(0, 12, 10);
+	
+	/*vehicle->GetTransform(originalTransform);*/
 
+	
+		
 
 	lookForCamera = Cube(0.5, 0.5, 0.5);
 	
@@ -117,6 +121,9 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
+
+	
+
 	turn = acceleration = brake = 0.0f;
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
@@ -187,7 +194,12 @@ void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	if (body1 == App->scene_intro->sensor_cube)	body1->SetPos(20 * rand() / RAND_MAX, 3, 20 * rand() / RAND_MAX);
 	if (body2 == App->scene_intro->sensor_cube)	body2->SetPos(20 * rand() / RAND_MAX, 3, 20 * rand() / RAND_MAX);
 
-	if (body2 == App->scene_intro->deathSensor_cube) { /* reset pos */ }
+	if (body2 == App->scene_intro->deathSensor_cube) { 
+		vehicle->SetPos(0, 12, 10); 
+		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
+		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+		
+	}
 
 }
 

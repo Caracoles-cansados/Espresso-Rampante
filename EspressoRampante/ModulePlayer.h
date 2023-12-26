@@ -27,4 +27,5 @@ public:
 	float turn;
 	float acceleration;
 	float brake;
+	float* originalTransform;
 };
