@@ -51,6 +51,7 @@ public:
 
 
 	PhysBody3D* sensor_cube;
+	PhysBody3D* deathSensor_cube;
 	
 
 	p2DynArray<Primitive*> primitives;
