@@ -99,6 +99,7 @@ bool ModulePlayer::Start()
 	vehicle = App->physics->AddVehicle(car);
 	vehicle->collision_listeners.add(this); // Add this module as listener to callbacks from vehicle
 	vehicle->SetPos(0, 5, 10);
+	//vehicle->SetRotation(30, { 0, 30, 0 });
 	vehicle->body->setGravity(btVector3(0,-13.9,0));
 	/*vehicle->GetTransform(originalTransform);*/
 
@@ -123,6 +124,8 @@ update_status ModulePlayer::Update(float dt)
 {
 
 	
+	
+
 
 	turn = acceleration = brake = 0.0f;
 
@@ -183,7 +186,9 @@ update_status ModulePlayer::Update(float dt)
 	char title[80];
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);
-
+	
+	
+	//vehicle->SetRotation(30, { 0, 30, 0 })
 	return UPDATE_CONTINUE;
 }
 
@@ -195,9 +200,11 @@ void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	if (body2 == App->scene_intro->sensor_cube)	body2->SetPos(20 * rand() / RAND_MAX, 3, 20 * rand() / RAND_MAX);
 
 	if (body2 == App->scene_intro->deathSensor_cube) { 
-		vehicle->SetPos(0, 5, 10); 
+		vehicle->SetPos(0, 0, 10); 
+		vehicle->SetTransform(vehicle->SetCarRotation(0, { 0, 20, 0 }));
 		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
 		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+		
 		
 	}
 

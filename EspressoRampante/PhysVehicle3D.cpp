@@ -129,3 +129,18 @@ float PhysVehicle3D::GetKmh() const
 {
 	return vehicle->getCurrentSpeedKmHour();
 }
+
+float* PhysVehicle3D::SetCarRotation(float angle, const vec3& u)
+{
+
+	transform.rotate(angle, u);
+	
+	return transform.M;
+}
+
+
+
+//void PhysVehicle3D::SetRotation(float angle, const vec3& u)
+//{
+//	transform.rotate(angle, u);
+//}
