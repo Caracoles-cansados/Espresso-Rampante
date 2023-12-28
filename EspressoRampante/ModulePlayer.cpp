@@ -161,6 +161,14 @@ update_status ModulePlayer::Update(float dt)
 		}
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		vehicle->SetTransform(vehicle->SetCarRotation(0, { 0, 1, 0 }));
+		vehicle->SetPos(0, 5, 10);
+		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
+		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+	}
+
 	vehicle->ApplyEngineForce(acceleration);
 	vehicle->Turn(turn);
 	vehicle->Brake(brake);
@@ -201,7 +209,7 @@ void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
 	if (body2 == App->scene_intro->deathSensor_cube) { 
 		 
-		vehicle->SetTransform(vehicle->SetCarRotation(0, { 0, 20, 0 }));
+		vehicle->SetTransform(vehicle->SetCarRotation(0, { 0, 1, 0 }));
 		vehicle->SetPos(0, 5, 10);
 		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
 		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
