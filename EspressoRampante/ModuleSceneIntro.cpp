@@ -61,13 +61,13 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 
 void ModuleSceneIntro::CreateElements()
 {
-	Cube* p_rampaInicial;
-	p_rampaInicial = new Cube(50, 2, 50);
-	p_rampaInicial->SetPos(0, 0, 0);
-	p_rampaInicial->color = Red;
-	deathSensor_cube = App->physics->AddBody(*p_rampaInicial, 0.0, true);
-	deathSensor_cube->SetTransform(p_rampaInicial->transform.M);
-	primitives.PushBack(p_rampaInicial);
+	Cube* cuboRojo;
+	cuboRojo = new Cube(550, 2, 550);
+	cuboRojo->SetPos(0, 0, 0);
+	cuboRojo->color = Red;
+	deathSensor_cube = App->physics->AddBody(*cuboRojo, 0.0, true);
+	deathSensor_cube->SetTransform(cuboRojo->transform.M);
+	primitives.PushBack(cuboRojo);
 	//physBodies.PushBack(deathSensor_cube);
 
 	/*CARRETERAS*/
