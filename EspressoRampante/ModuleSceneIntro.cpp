@@ -3,6 +3,8 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
+#include <gl/GL.h>
+#include "glut/glut.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -132,6 +134,61 @@ void ModuleSceneIntro::CreateElements()
 	//CreateElement(new Cylinder(2,3), vec3(0, 3, 35), 25, vec3(0, 1, 0));
 
 
+	CreateRope(btVector3(0, 10, 40));
+	CreateRope(btVector3(3, 10, 40));
+	CreateRope(btVector3(-3, 10, 40));
+
+}
+
+void ModuleSceneIntro::CreateRope(btVector3 startPosition) {
+	//btVector3 startPosition(0, 10, 0);  // Posición inicial de la cuerda
+
+	int NumSpheres = 5;
+	btScalar SphereRadius = 1.0;
+	btScalar SphereMass = 1.0;
+
+	btRigidBody* previousSphere = nullptr;
+
+	for (int i = 0; i < NumSpheres; ++i) {
+		// Crear la esfera
+		btCollisionShape* sphereShape = new btSphereShape(SphereRadius);
+		btTransform startTransform;
+		startTransform.setIdentity();
+		startTransform.setOrigin(startPosition);
+
+		// Configurar el cuerpo rígido
+		btVector3 localInertia(0, 0, 0);
+		sphereShape->calculateLocalInertia(SphereMass, localInertia);
+
+		btDefaultMotionState* motionState = new btDefaultMotionState(startTransform);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(SphereMass, motionState, sphereShape, localInertia);
+		btRigidBody* sphereBody = new btRigidBody(rbInfo);
+
+		// Añadir la esfera al mundo de física
+		App->physics->world->addRigidBody(sphereBody);
+		
+
+		// Añadir restricciones P2P entre esferas adyacentes
+		if (previousSphere) {
+			btVector3 pivotA(0, SphereRadius, 0);  // Punto de conexión en la esfera anterior
+			btVector3 pivotB(0, -SphereRadius, 0); // Punto de conexión en la esfera actual
+
+			btPoint2PointConstraint* p2pConstraint = new btPoint2PointConstraint(*previousSphere, *sphereBody, pivotA, pivotB);
+			App->physics->world->addConstraint(p2pConstraint, true);
+		}
+
+		// Hacer la primera esfera estática
+		if (i == 0) {
+			sphereBody->setMassProps(0.0, localInertia);
+			sphereBody->setCollisionFlags(sphereBody->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+		}
+
+		// Actualizar la posición inicial para la próxima esfera
+		startPosition += btVector3(0, -2 * SphereRadius, 0);
+
+		// Actualizar la referencia a la esfera anterior
+		previousSphere = sphereBody;
+	}
 }
 
 void ModuleSceneIntro::RenderElements()
@@ -140,6 +197,24 @@ void ModuleSceneIntro::RenderElements()
 	for (int i = 0; i < primitives.Count(); i++) {
 		if ((**primitives.At(i)).renderPrimitive) {
 			(**primitives.At(i)).Render();
+		}
+	}
+	// Renderizar esferas de la cuerda
+	for (int i = 0; i < App->physics->world->getNumCollisionObjects(); ++i) {
+		btCollisionObject* obj = App->physics->world->getCollisionObjectArray()[i];
+		btRigidBody* body = btRigidBody::upcast(obj);
+
+		if (body && body->getMotionState()) {
+			btTransform transform;
+			body->getMotionState()->getWorldTransform(transform);
+
+			btScalar mat[16];
+			transform.getOpenGLMatrix(mat);
+
+			glPushMatrix();
+			glMultMatrixf(mat);
+			glutSolidSphere(1.0, 20, 20);  // Ajusta los parámetros según sea necesario
+			glPopMatrix();
 		}
 	}
 

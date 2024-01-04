@@ -3,6 +3,7 @@
 #include "p2DynArray.h"
 #include "Globals.h"
 #include "Primitive.h"
+#include "ModulePhysics3D.h"
 
 #define MAX_SNAKE 2
 
@@ -27,6 +28,7 @@ public:
 
 	Cube* CreateElement(Cube* forma, vec3 position, float angle, vec3 axis);
 	void CreateElement(Cylinder* forma, vec3 position, float angle, vec3 axis);
+	void CreateRope(btVector3 startPos);
 
 public:
 	/*
