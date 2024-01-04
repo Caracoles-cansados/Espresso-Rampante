@@ -200,21 +200,25 @@ void ModuleSceneIntro::RenderElements()
 		}
 	}
 	// Renderizar esferas de la cuerda
+	// Renderizar solo las esferas de la cuerda
 	for (int i = 0; i < App->physics->world->getNumCollisionObjects(); ++i) {
 		btCollisionObject* obj = App->physics->world->getCollisionObjectArray()[i];
 		btRigidBody* body = btRigidBody::upcast(obj);
 
 		if (body && body->getMotionState()) {
-			btTransform transform;
-			body->getMotionState()->getWorldTransform(transform);
+			// Verificar si es una esfera
+			if (body->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE) {
+				btTransform transform;
+				body->getMotionState()->getWorldTransform(transform);
 
-			btScalar mat[16];
-			transform.getOpenGLMatrix(mat);
+				btScalar mat[16];
+				transform.getOpenGLMatrix(mat);
 
-			glPushMatrix();
-			glMultMatrixf(mat);
-			glutSolidSphere(1.0, 20, 20);  // Ajusta los parámetros según sea necesario
-			glPopMatrix();
+				glPushMatrix();
+				glMultMatrixf(mat);
+				glutSolidSphere(1.0, 20, 20);  // Ajusta los parámetros según sea necesario
+				glPopMatrix();
+			}
 		}
 	}
 
