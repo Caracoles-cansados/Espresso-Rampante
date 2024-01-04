@@ -29,4 +29,5 @@ public:
 	float brake;
 	float* originalTransform;
 	float originalFriction = 2.0f;
+	float originalMass = 500;
 };

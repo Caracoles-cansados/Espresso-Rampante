@@ -23,7 +23,7 @@ bool ModulePlayer::Start()
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 2, 4);
 	car.chassis_offset.Set(0, 1.5, 0);
-	car.mass = 500.0f;
+	car.mass = originalMass;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
@@ -153,6 +153,42 @@ update_status ModulePlayer::Update(float dt)
 		}
 		LOG("Nueva friccion general: %f", originalFriction);
 	}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_REPEAT) {
+		btRigidBody* rbCar = vehicle->vehicle->getRigidBody();
+		originalMass += 10;
+		
+		btVector3 inertia;
+		rbCar->getCollisionShape()->calculateLocalInertia(originalMass, inertia);
+		rbCar->setMassProps(originalMass, inertia);
+		rbCar->updateInertiaTensor();
+
+		int numWheels = vehicle->info.num_wheels;
+		for (int i = 0; i < numWheels; ++i) {
+			vehicle->vehicle->updateWheelTransform(i);
+		}
+		LOG("Nueva masa del vehiculo: %f", originalMass);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F11) == KEY_REPEAT && originalMass != 1) {
+		btRigidBody* rbCar = vehicle->vehicle->getRigidBody();
+		originalMass -= 10;
+		if (originalMass <= 0) {
+			originalMass = 1;
+		}
+		btVector3 inertia;
+		rbCar->getCollisionShape()->calculateLocalInertia(originalMass, inertia);
+		rbCar->setMassProps(originalMass, inertia);
+		rbCar->updateInertiaTensor();
+
+		int numWheels = vehicle->info.num_wheels;
+		for (int i = 0; i < numWheels; ++i) {
+			vehicle->vehicle->updateWheelTransform(i);
+		}
+		LOG("Nueva masa del vehiculo: %f", originalMass);
+
+	}
+
 	
 
 	turn = acceleration = brake = 0.0f;
