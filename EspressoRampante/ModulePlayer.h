@@ -30,4 +30,5 @@ public:
 	float* originalTransform;
 	float originalFriction = 2.0f;
 	float originalMass = 500;
+	float car_gravity = -13.9;
 };
