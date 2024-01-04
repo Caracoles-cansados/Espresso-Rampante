@@ -29,7 +29,14 @@ bool ModulePlayer::Start()
 	car.suspensionDamping = 0.88f;
 	car.maxSuspensionTravelCm = 1000.0f;
 	car.frictionSlip = 50.5;
+	
 	car.maxSuspensionForce = 6000.0f;
+
+
+	car.suspensionStiffness = 20.f;
+	car.suspensionCompression = 2.3f;
+	car.suspensionDamping = 4.4f;
+	
 
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
@@ -95,14 +102,17 @@ bool ModulePlayer::Start()
 	car.wheels[3].drive = false;
 	car.wheels[3].brake = true;
 	car.wheels[3].steering = false;
-
+	
+	
 	vehicle = App->physics->AddVehicle(car);
+	
 	vehicle->collision_listeners.add(this); // Add this module as listener to callbacks from vehicle
 	vehicle->SetPos(0, 5, 10);
 	//vehicle->SetRotation(30, { 0, 30, 0 });
 	vehicle->body->setGravity(btVector3(0,-13.9,0));
 	/*vehicle->GetTransform(originalTransform);*/
-
+	
+	
 	
 		
 
@@ -122,10 +132,9 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update(float dt)
 {
-
 	
 	
-
+	
 
 	turn = acceleration = brake = 0.0f;
 
@@ -167,6 +176,16 @@ update_status ModulePlayer::Update(float dt)
 		vehicle->SetPos(0, 5, 10);
 		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
 		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+
+		int numWheels = vehicle->info.num_wheels;
+
+		// Itera sobre cada rueda y ajusta la fricción
+		for (int i = 0; i < numWheels; ++i) {
+			btWheelInfo& wheel = vehicle->vehicle->getWheelInfo(i);
+			wheel.m_frictionSlip = originalFriction;
+			vehicle->vehicle->updateWheelTransform(i);
+		}
+		
 	}
 
 	vehicle->ApplyEngineForce(acceleration);
@@ -196,7 +215,10 @@ update_status ModulePlayer::Update(float dt)
 	App->window->SetTitle(title);
 	
 	
-	//vehicle->SetRotation(30, { 0, 30, 0 })
+	
+	
+
+
 	return UPDATE_CONTINUE;
 }
 
@@ -212,9 +234,39 @@ void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 		vehicle->SetTransform(vehicle->SetCarRotation(0, { 0, 1, 0 }));
 		vehicle->SetPos(0, 5, 10);
 		vehicle->body->setLinearVelocity(btVector3(0, 0, 0));
-		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));
+		vehicle->body->setAngularVelocity(btVector3(0, 0, 0));	
+
+		int numWheels = vehicle->info.num_wheels;
+
+		// Itera sobre cada rueda y ajusta la fricción
+		for (int i = 0; i < numWheels; ++i) {
+			btWheelInfo& wheel = vehicle->vehicle->getWheelInfo(i);
+			wheel.m_frictionSlip = originalFriction;
+			vehicle->vehicle->updateWheelTransform(i);
+		}
 		
-		
+	}
+
+	//Hielo
+	if (body2->idType == 2) {
+		int numWheels = vehicle->info.num_wheels;
+
+		// Itera sobre cada rueda y ajusta la fricción
+		for (int i = 0; i < numWheels; ++i) {
+			btWheelInfo& wheel = vehicle->vehicle->getWheelInfo(i);
+			wheel.m_frictionSlip = 0.8;
+			vehicle->vehicle->updateWheelTransform(i);
+		}
+	}
+	if (body2->idType == 3) {
+		int numWheels = vehicle->info.num_wheels;
+
+		// Itera sobre cada rueda y ajusta la fricción
+		for (int i = 0; i < numWheels; ++i) {
+			btWheelInfo& wheel = vehicle->vehicle->getWheelInfo(i);
+			wheel.m_frictionSlip = originalFriction;
+			vehicle->vehicle->updateWheelTransform(i);
+		}
 	}
 
 }

@@ -28,6 +28,7 @@ public:
 	btRigidBody* body = nullptr;
 	p2List<Module*> collision_listeners;
 	bool is_sensor = false;
+	int idType = 0;
 };
 
 #endif // __PhysBody3D_H__

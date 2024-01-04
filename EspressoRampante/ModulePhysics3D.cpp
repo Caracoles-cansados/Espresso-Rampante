@@ -315,7 +315,8 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	tuning.m_suspensionStiffness = info.suspensionStiffness;
 
 	btRaycastVehicle* vehicle = new btRaycastVehicle(tuning, body, vehicle_raycaster);
-
+	
+	
 	vehicle->setCoordinateSystem(0, 1, 2);
 
 	for(int i = 0; i < info.num_wheels; ++i)

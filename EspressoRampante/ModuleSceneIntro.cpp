@@ -70,14 +70,51 @@ void ModuleSceneIntro::CreateElements()
 	primitives.PushBack(cuboRojo);
 	//physBodies.PushBack(deathSensor_cube);
 
+	Cube* icedCube;
+
 	/*CARRETERAS*/
 	CreateElement(new Cube(16, 2, 200), vec3(0, 1, 0), 0, vec3(1, 0, 0)); /*INICIO*/
 	CreateElement(new Cube(16, 2, 50), vec3(0, 1, 150), 0, vec3(1, 0, 0)); /*POST RAMPA 1*/
 	CreateElement(new Cube(50, 2, 16), vec3(-17, 1, 183), 0, vec3(1, 0, 0)); /*CURVA 1*/
 	CreateElement(new Cube(16, 2, 66), vec3(-50, 1, 158), 0, vec3(1, 0, 0)); /*POST CURVA 1*/
-	CreateElement(new Cube(50, 2, 16), vec3(-83, 1, 133), 0, vec3(1, 0, 0)); /*CURVA 2*/
-	CreateElement(new Cube(16, 2, 50), vec3(-100, 1, 166), 0, vec3(1, 0, 0)); /*POST CURVA 2*/
-	CreateElement(new Cube(80, 2, 16), vec3(-148, 1, 183), 0, vec3(1, 0, 0)); /*CURVA 3*/
+	CreateElement(new Cube(50, 2, 16), vec3(-83, 1, 133), 0, vec3(1, 0, 0))->color = Blue; /*CURVA 2*/
+	//Sensor para cambiar a la friccion de hielo
+	icedCube = CreateElement(new Cube(50, 2, 16), vec3(-83, 3, 133), 0, vec3(1, 0, 0));
+	icedCube->renderPrimitive = false;
+	icedCube->phys->SetAsSensor(true);
+	icedCube->phys->idType = 2;
+
+	//Sensor para volver a la friccion original
+	icedCube = CreateElement(new Cube(5, 2, 16), vec3(-53, 3, 133), 0, vec3(1, 0, 0));
+	icedCube->renderPrimitive = false;
+	icedCube->phys->SetAsSensor(true);
+	icedCube->phys->idType = 3;
+	
+
+	
+	CreateElement(new Cube(16, 2, 50), vec3(-100, 1, 166), 0, vec3(1, 0, 0))->color = Blue; /*POST CURVA 2*/
+	//Sensor para cambiar a la friccion de hielo
+	icedCube = CreateElement(new Cube(16, 2, 50), vec3(-100, 3, 166), 0, vec3(1, 0, 0));
+	icedCube->renderPrimitive = false;
+	icedCube->phys->SetAsSensor(true);
+	icedCube->phys->idType = 2;
+
+	CreateElement(new Cube(80, 2, 16), vec3(-148, 1, 183), 0, vec3(1, 0, 0))->color = Blue; /*CURVA 3*/
+	//Sensor para cambiar a la friccion de hielo
+	icedCube = CreateElement(new Cube(80, 2, 16), vec3(-148, 3, 183), 0, vec3(1, 0, 0));
+	icedCube->renderPrimitive = false;
+	icedCube->phys->SetAsSensor(true);
+	icedCube->phys->idType = 2;
+
+
+	//Sensor para volver a la friccion original
+	icedCube = CreateElement(new Cube(16, 2, 5), vec3(-180, 3, 170), 0, vec3(1, 0, 0));
+	icedCube->renderPrimitive = false;
+	icedCube->phys->SetAsSensor(true);
+	icedCube->phys->idType = 3;
+	
+
+	
 	CreateElement(new Cube(16, 2, 50), vec3(-180, 1, 150), 0, vec3(1, 0, 0)); /*POST CURVA 3*/
 	CreateElement(new Cube(3, 2, 50), vec3(-180, 1, 100), 0, vec3(1, 0, 0)); /*RECTA ESTRECHA*/
 	CreateElement(new Cube(3, 2, 30), vec3(-180, 1, 50), 0, vec3(1, 0, 0)); /*RECTA ESTRECHA 2*/
@@ -101,21 +138,27 @@ void ModuleSceneIntro::RenderElements()
 {
 
 	for (int i = 0; i < primitives.Count(); i++) {
-		(**primitives.At(i)).Render();
+		if ((**primitives.At(i)).renderPrimitive) {
+			(**primitives.At(i)).Render();
+		}
 	}
 
 }
 
 Cube* ModuleSceneIntro::CreateElement(Cube* forma, vec3 position, float angle, vec3 axis)
 {
-	PhysBody3D* pb_rampaInicial;
+	PhysBody3D* physBody;
 	
 	forma->SetPos(position.x, position.y, position.z);
-	pb_rampaInicial = App->physics->AddBody(*forma, 0.0);
+	physBody = App->physics->AddBody(*forma, 0.0);
 	forma->SetRotation(angle, axis);
-	pb_rampaInicial->SetTransform(forma->transform.M);
+	physBody->SetTransform(forma->transform.M);
+
+	forma->phys = physBody;
+	
+
 	primitives.PushBack(forma);
-	physBodies.PushBack(pb_rampaInicial);
+	physBodies.PushBack(physBody);
 
 
 	return forma;
