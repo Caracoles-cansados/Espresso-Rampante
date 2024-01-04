@@ -142,16 +142,18 @@ update_status ModulePlayer::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
 		car_gravity -= 1;
 		vehicle->body->setGravity(btVector3(0, car_gravity, 0));
+		LOG("Nueva gravedad en Y: %f", car_gravity);
 
 	}
 	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
 		car_gravity += 1;
 		vehicle->body->setGravity(btVector3(0, car_gravity, 0));
+		LOG("Nueva gravedad en Y: %f", car_gravity);
 
 	}
 
 
-	LOG("%f", car_gravity);
+	
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
 		originalFriction += 0.1f;
 	}
