@@ -19,7 +19,7 @@ bool ModulePlayer::Start()
 	LOG("Loading player");
 
 	VehicleInfo car;
-
+	car_gravity = -13.9;
 	// Car properties ----------------------------------------
 	car.chassis_size.Set(2, 2, 4);
 	car.chassis_offset.Set(0, 1.5, 0);
@@ -109,7 +109,13 @@ bool ModulePlayer::Start()
 	vehicle->collision_listeners.add(this); // Add this module as listener to callbacks from vehicle
 	vehicle->SetPos(0, 5, 10);
 	//vehicle->SetRotation(30, { 0, 30, 0 });
-	vehicle->body->setGravity(btVector3(0,-13.9,0));
+
+
+	//vehicle->body->setGravity(btVector3(0,-13.9,0));
+
+	vehicle->body->setGravity(btVector3(0, car_gravity, 0));
+
+
 	/*vehicle->GetTransform(originalTransform);*/
 	
 	
@@ -133,6 +139,19 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update(float dt)
 {
 	
+	if (App->input->GetKey(SDL_SCANCODE_F6) == KEY_DOWN) {
+		car_gravity -= 1;
+		vehicle->body->setGravity(btVector3(0, car_gravity, 0));
+
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
+		car_gravity += 1;
+		vehicle->body->setGravity(btVector3(0, car_gravity, 0));
+
+	}
+
+
+	LOG("%f", car_gravity);
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
 		originalFriction += 0.1f;
 	}
@@ -140,6 +159,8 @@ update_status ModulePlayer::Update(float dt)
 		originalFriction -= 0.1f;
 		
 	}
+
+
 
 	//APLICAR LA FRICCION
 	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_UP || App->input->GetKey(SDL_SCANCODE_F9) == KEY_UP) {
