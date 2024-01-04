@@ -28,7 +28,7 @@ bool ModulePlayer::Start()
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
 	car.maxSuspensionTravelCm = 1000.0f;
-	car.frictionSlip = 50.5;
+	car.frictionSlip = originalFriction;
 	
 	car.maxSuspensionForce = 6000.0f;
 
@@ -133,7 +133,26 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update(float dt)
 {
 	
-	
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+		originalFriction += 0.1f;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
+		originalFriction -= 0.1f;
+		
+	}
+
+	//APLICAR LA FRICCION
+	if (App->input->GetKey(SDL_SCANCODE_F8) == KEY_UP || App->input->GetKey(SDL_SCANCODE_F9) == KEY_UP) {
+		int numWheels = vehicle->info.num_wheels;
+
+		// Itera sobre cada rueda y ajusta la fricción
+		for (int i = 0; i < numWheels; ++i) {
+			btWheelInfo& wheel = vehicle->vehicle->getWheelInfo(i);
+			wheel.m_frictionSlip = originalFriction;
+			vehicle->vehicle->updateWheelTransform(i);
+		}
+		LOG("Nueva friccion general: %f", originalFriction);
+	}
 	
 
 	turn = acceleration = brake = 0.0f;

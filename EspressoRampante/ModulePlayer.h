@@ -28,5 +28,5 @@ public:
 	float acceleration;
 	float brake;
 	float* originalTransform;
-	float originalFriction = 50.5f;
+	float originalFriction = 2.0f;
 };
