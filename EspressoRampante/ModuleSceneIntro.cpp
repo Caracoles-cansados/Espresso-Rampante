@@ -259,6 +259,7 @@ void ModuleSceneIntro::RenderElements()
 
 				glPushMatrix();
 				glMultMatrixf(mat);
+				glColor4f(1, 1, 1, 1);
 				glutSolidSphere(1.0, 20, 20);  // Ajusta los parámetros según sea necesario
 				glPopMatrix();
 			}
