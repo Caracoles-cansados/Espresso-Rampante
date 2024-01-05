@@ -76,8 +76,8 @@ void ModuleSceneIntro::CreateElements()
 
 	/*CARRETERAS*/
 	CreateElement(new Cube(16, 2, 200), vec3(0, 1, 0), 0, vec3(1, 0, 0)); /*INICIO*/
-	CreateElement(new Cube(16, 2, 50), vec3(0, 1, 150), 0, vec3(1, 0, 0)); /*POST RAMPA 1*/
-	CreateElement(new Cube(50, 2, 16), vec3(-17, 1, 183), 0, vec3(1, 0, 0)); /*CURVA 1*/
+	CreateElement(new Cube(16, 15, 40), vec3(0, 1, 140), 0, vec3(1, 0, 0)); /*POST RAMPA 1*/
+	CreateElement(new Cube(50, 2, 22), vec3(-17, 1, 180), 0, vec3(1, 0, 0)); /*CURVA 1*/
 	CreateElement(new Cube(16, 2, 66), vec3(-50, 1, 158), 0, vec3(1, 0, 0)); /*POST CURVA 1*/
 	CreateElement(new Cube(50, 2, 16), vec3(-83, 1, 133), 0, vec3(1, 0, 0))->color = Blue; /*CURVA 2*/
 	//Sensor para cambiar a la friccion de hielo
@@ -121,13 +121,14 @@ void ModuleSceneIntro::CreateElements()
 	CreateElement(new Cube(3, 2, 50), vec3(-180, 1, 100), 0, vec3(1, 0, 0)); /*RECTA ESTRECHA*/
 	CreateElement(new Cube(3, 2, 30), vec3(-180, 1, 50), 0, vec3(1, 0, 0)); /*RECTA ESTRECHA 2*/
 	CreateElement(new Cube(3, 2, 30), vec3(-180, 1, 10), 0, vec3(1, 0, 0)); /*RECTA ESTRECHA 3*/
-	CreateElement(new Cube(16, 2, 80), vec3(-180, 1, -60), 0, vec3(1, 0, 0)); /*RECTA AMPLIA */
+	CreateElement(new Cube(16, 2, 83), vec3(-180, 1, -60), 0, vec3(1, 0, 0)); /*RECTA AMPLIA */
 	CreateElement(new Cube(196, 2, 5), vec3(-90, 3, -102), 50, vec3(1, 0, 0)); /*RECTA AMPLIA */
 
 
 
-	/*RAMPAS*/
+	/*RAMPAS*/	
 	CreateElement(new Cube(16, 2, 10), vec3(0, 2, 100), -25, vec3(1, 0, 0));/*RAMPA 1*/
+	CreateElement(new Cube(16, 2, 50), vec3(0, -3, 182), 25, vec3(1, 0, 0));/*RAMPA BAJADA*/
 	CreateElement(new Cube(3, 2, 10), vec3(-180, 3, 75), 25, vec3(1, 0, 0));/*RAMPA ESTRECHA 2*/
 	CreateElement(new Cube(3, 2, 10), vec3(-180, 3, 35), 25, vec3(1, 0, 0));/*RAMPA ESTRECHA 3*/
 	CreateElement(new Cube(3, 2, 10), vec3(-180, 3, -5), 25, vec3(1, 0, 0));/*RAMPA ESTRECHA 4*/
