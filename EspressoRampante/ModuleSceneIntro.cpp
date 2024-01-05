@@ -249,7 +249,7 @@ void ModuleSceneIntro::RenderElements()
 		btRigidBody* body = btRigidBody::upcast(obj);
 
 		if (body && body->getMotionState()) {
-			// Verificar si es una esfera
+		
 			if (body->getCollisionShape()->getShapeType() == SPHERE_SHAPE_PROXYTYPE) {
 				btTransform transform;
 				body->getMotionState()->getWorldTransform(transform);
@@ -260,7 +260,7 @@ void ModuleSceneIntro::RenderElements()
 				glPushMatrix();
 				glMultMatrixf(mat);
 				glColor4f(1, 1, 1, 1);
-				glutSolidSphere(1.0, 20, 20);  // Ajusta los parámetros según sea necesario
+				glutSolidSphere(1.0, 20, 20);  
 				glPopMatrix();
 			}
 		}
