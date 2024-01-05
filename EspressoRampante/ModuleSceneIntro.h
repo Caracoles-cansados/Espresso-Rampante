@@ -29,6 +29,7 @@ public:
 	Cube* CreateElement(Cube* forma, vec3 position, float angle, vec3 axis);
 	void CreateElement(Cylinder* forma, vec3 position, float angle, vec3 axis);
 	void CreateRope(btVector3 startPos);
+	void CreateCollectionable(btVector3 position);
 
 public:
 	/*
@@ -58,6 +59,7 @@ public:
 
 	p2DynArray<Primitive*> primitives;
 	p2DynArray<PhysBody3D*> physBodies;
+	p2DynArray<Primitive*> ballsCollectionables;
 	
 	
 };

@@ -135,9 +135,17 @@ void ModuleSceneIntro::CreateElements()
 	//CreateElement(new Cylinder(2,3), vec3(0, 3, 35), 25, vec3(0, 1, 0));
 
 
+	CreateCollectionable(btVector3(0, 3, 30)); //Moneda
+	CreateCollectionable(btVector3(0, 3, 20)); //Moneda
+	CreateCollectionable(btVector3(0, 3, 10)); //Moneda
+	
+
 	CreateRope(btVector3(0, 10, 40));
 	CreateRope(btVector3(3, 10, 40));
 	CreateRope(btVector3(-3, 10, 40));
+
+
+	
 
 }
 
@@ -153,6 +161,7 @@ void ModuleSceneIntro::CreateRope(btVector3 startPosition) {
 	for (int i = 0; i < NumSpheres; ++i) {
 		// Crear la esfera
 		btCollisionShape* sphereShape = new btSphereShape(SphereRadius);
+		
 		btTransform startTransform;
 		startTransform.setIdentity();
 		startTransform.setOrigin(startPosition);
@@ -164,7 +173,7 @@ void ModuleSceneIntro::CreateRope(btVector3 startPosition) {
 		btDefaultMotionState* motionState = new btDefaultMotionState(startTransform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(SphereMass, motionState, sphereShape, localInertia);
 		btRigidBody* sphereBody = new btRigidBody(rbInfo);
-
+		
 		// Añadir la esfera al mundo de física
 		App->physics->world->addRigidBody(sphereBody);
 		
@@ -192,6 +201,28 @@ void ModuleSceneIntro::CreateRope(btVector3 startPosition) {
 	}
 }
 
+void ModuleSceneIntro::CreateCollectionable(btVector3 position)
+{
+
+
+	Cube* s = new Cube(2,2,2);
+	PhysBody3D* physBody;
+	
+	s->SetPos(position.x(), position.y(), position.z());
+	physBody = App->physics->AddBody(*s, 0.0);
+	physBody->idType = 5;
+	physBody->SetTransform(s->transform.M);
+	physBody->SetAsSensor(true);
+	s->phys = physBody;
+	s->picked = false;
+	s->color = Color{1,1,0,1};
+
+	ballsCollectionables.PushBack(s);
+	physBodies.PushBack(physBody);
+
+
+}
+
 void ModuleSceneIntro::RenderElements()
 {
 
@@ -200,6 +231,17 @@ void ModuleSceneIntro::RenderElements()
 			(**primitives.At(i)).Render();
 		}
 	}
+
+	for (int i = 0; i < ballsCollectionables.Count(); i++) {
+		if ((**ballsCollectionables.At(i)).picked) {
+			(**ballsCollectionables.At(i)).color = Green;
+			
+		}
+		(**ballsCollectionables.At(i)).Render();
+		
+	}
+
+
 	// Renderizar esferas de la cuerda
 	// Renderizar solo las esferas de la cuerda
 	for (int i = 0; i < App->physics->world->getNumCollisionObjects(); ++i) {

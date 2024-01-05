@@ -36,6 +36,7 @@ public:
 	bool axis,wire;
 	PhysBody3D* phys;
 	bool renderPrimitive = true;
+	bool picked = false;
 
 protected:
 	PrimitiveTypes type;
@@ -61,6 +62,7 @@ public:
 	void InnerRender() const;
 public:
 	float radius;
+	
 };
 
 // ============================================

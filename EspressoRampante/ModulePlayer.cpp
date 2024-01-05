@@ -263,6 +263,13 @@ update_status ModulePlayer::Update(float dt)
 			wheel.m_frictionSlip = originalFriction;
 			vehicle->vehicle->updateWheelTransform(i);
 		}
+
+		for (int i = 0; i < App->scene_intro->ballsCollectionables.Count(); i++) {
+			if ((**App->scene_intro->ballsCollectionables.At(i)).picked) {
+				(**App->scene_intro->ballsCollectionables.At(i)).picked = false;
+				(**App->scene_intro->ballsCollectionables.At(i)).color = Color{ 1,1,0,1 };
+			}
+		}
 		
 	}
 
@@ -307,6 +314,19 @@ void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	if (body1 == App->scene_intro->sensor_cube)	body1->SetPos(20 * rand() / RAND_MAX, 3, 20 * rand() / RAND_MAX);
 	if (body2 == App->scene_intro->sensor_cube)	body2->SetPos(20 * rand() / RAND_MAX, 3, 20 * rand() / RAND_MAX);
 
+
+	if (body2->idType == 5) {
+		for (int i = 0; i < App->scene_intro->ballsCollectionables.Count(); i++) {
+			if (body2 == (**App->scene_intro->ballsCollectionables.At(i)).phys && !(**App->scene_intro->ballsCollectionables.At(i)).picked) {
+				(**App->scene_intro->ballsCollectionables.At(i)).picked = true;
+			}
+		}
+	}
+
+
+
+
+
 	if (body2 == App->scene_intro->deathSensor_cube) { 
 		 
 		vehicle->SetTransform(vehicle->SetCarRotation(0, { 0, 1, 0 }));
@@ -321,6 +341,14 @@ void ModulePlayer::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 			btWheelInfo& wheel = vehicle->vehicle->getWheelInfo(i);
 			wheel.m_frictionSlip = originalFriction;
 			vehicle->vehicle->updateWheelTransform(i);
+		}
+
+
+		for (int i = 0; i < App->scene_intro->ballsCollectionables.Count(); i++) {
+			if ((**App->scene_intro->ballsCollectionables.At(i)).picked) {
+				(**App->scene_intro->ballsCollectionables.At(i)).picked = false;
+				(**App->scene_intro->ballsCollectionables.At(i)).color = Color{ 1,1,0,1 };
+			}
 		}
 		
 	}
