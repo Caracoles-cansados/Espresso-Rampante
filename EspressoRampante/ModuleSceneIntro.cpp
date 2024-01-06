@@ -136,8 +136,24 @@ void ModuleSceneIntro::CreateElements()
 
 
 	CreateCollectionable(btVector3(0, 3, 30)); //Moneda
-	CreateCollectionable(btVector3(0, 3, 20)); //Moneda
-	CreateCollectionable(btVector3(0, 3, 10)); //Moneda
+	CreateCollectionable(btVector3(6, 3, 50)); //Moneda
+	CreateCollectionable(btVector3(0, 10, 120)); //Moneda
+	CreateCollectionable(btVector3(4, 10, 120)); //Moneda
+	CreateCollectionable(btVector3(-4, 10, 120)); //Moneda
+	CreateCollectionable(btVector3(-4, 5, 170)); //Moneda
+	CreateCollectionable(btVector3(-30, 3, 190)); //Moneda
+	CreateCollectionable(btVector3(-45, 3, 150)); //Moneda
+	CreateCollectionable(btVector3(-80, 3, 130)); //Moneda
+	CreateCollectionable(btVector3(-100, 3, 180)); //Moneda
+	CreateCollectionable(btVector3(-120, 3, 190)); //Moneda
+	CreateCollectionable(btVector3(-150, 3, 176)); //Moneda
+	CreateCollectionable(btVector3(-170, 3, 190)); //Moneda
+	CreateCollectionable(btVector3(-175, 3, 150)); //Moneda
+	CreateCollectionable(btVector3(-180, 3, 100)); //Moneda
+	CreateCollectionable(btVector3(-180, 6, 60)); //Moneda
+	CreateCollectionable(btVector3(-180, 6, 20)); //Moneda
+	CreateCollectionable(btVector3(-180, 6, -20)); //Moneda
+	
 	
 
 	CreateRope(btVector3(0, 10, 40));
